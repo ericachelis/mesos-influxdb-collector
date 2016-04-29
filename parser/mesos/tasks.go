@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"time"
+	"strings"
 
 	"github.com/kpacha/mesos-influxdb-collector/store"
 )
@@ -43,6 +44,7 @@ func (mp SlaveStatsParser) getTaskPoint(stats SlaveTaskStats, ts time.Time) stor
 		Measurement: "task-consumption",
 		Tags: map[string]string{
 			"node":     mp.Node,
+			"name":     strings.Split(stats.ExecutorID, ".")[0],
 			"executor": stats.ExecutorID,
 		},
 		Fields: map[string]interface{}{
